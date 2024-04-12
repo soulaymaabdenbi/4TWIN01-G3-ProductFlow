@@ -17,3 +17,6 @@ Q
 !DevOps_Project/docker-compose.yml,e\9\e9fd6befc015f7907f09e6609141ae18f0193743
 F
 DevOps_Project/pom.xml,0\5\05d74d38eb7cba5952468b2028981ad1cad0141d
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
