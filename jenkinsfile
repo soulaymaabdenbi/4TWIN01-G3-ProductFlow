@@ -44,11 +44,12 @@ pipeline {
 
         stage('Maven Clean Compile') {
             steps {
-                sh 'mvn clean'
+                sh 'mvn -f /var/lib/jenkins/workspace/4TWIN1-G3-ProductFlow/DevOps_Project/pom.xml clean'
                 echo 'Running Maven Compile'
-                sh 'mvn compile'
+                sh 'mvn -f /var/lib/jenkins/workspace/4TWIN1-G3-ProductFlow/DevOps_Project/pom.xml compile'
             }
         }
+
         stage('Testing JUnit/Mockito') {
             steps {
                 sh 'mvn test'
