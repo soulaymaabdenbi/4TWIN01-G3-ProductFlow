@@ -13,13 +13,35 @@ pipeline {
                 git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git'
             }
         }
-        stage('Status Mysql') {
+
+      /*  stage('Status Mysql') {
             steps {
                 script {
                     sh 'sudo systemctl start mysql'
                 }
             }
+        }*/
+
+
+
+        stage('Check and Start MySQL') {
+            steps {
+                script {
+                   
+                    def status = sh(script: 'sudo systemctl is-active mysql', returnStatus: true)
+                    if (status != 0) {
+
+                        sh 'sudo systemctl start mysql'
+
+                        status = sh(script: 'sudo systemctl is-active mysql', returnStatus: true)
+                        if (status != 0) {
+                            error("Failed to start MySQL service.")
+                        }
+                    }
+                }
+            }
         }
+
         stage('Maven Clean Compile') {
             steps {
                 sh 'mvn clean'
@@ -48,6 +70,23 @@ pipeline {
                 sh 'mvn jacoco:report'
             }
         }
+        stage('DOCKER IMAGE') {
+             steps {
+                 sh 'docker build -t DevOps_Project-1.0 .'
+             }
+        }
+          stage('DOCKER HUB') {
+                     steps {
+                         sh 'docker login -u mamiamina -p 234JFT3231'
+                         sh 'docker tag DevOps_Project-1.0 mamiamina/DevOps_Project-1.0'
+                         sh 'docker push mamiamina/DevOps_Project-1.0'
+                     }
+                 }
+                stage('DOCKER COMPOSE') {
+                    steps {
+                        sh 'docker-compose up -d'
+                    }
+                }
     }
 }
 
