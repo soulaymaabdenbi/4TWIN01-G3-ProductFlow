@@ -9,8 +9,9 @@ pipeline {
         stage('Git') {
             steps {
                 echo 'Pulling ';
-                git branch: 'AminaMAMI-4TWIN1-G3', , url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git';
-            }
+              git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git';
+
+                 }
         }
         stage('Status Mysql') {
             steps {
