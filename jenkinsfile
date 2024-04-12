@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'Pulling'
 
-                git branch: 'AminaMAMI-4TWIN1-G3', credentialsId: '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', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git'
+                git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git'
             }
         }
         stage('Status Mysql') {
