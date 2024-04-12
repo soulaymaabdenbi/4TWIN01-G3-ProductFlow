@@ -27,13 +27,13 @@ pipeline {
         stage('Check and Start MySQL') {
             steps {
                 script {
-                   
-                    def status = sh(script: 'sudo systemctl is-active mysql', returnStatus: true)
+
+                    def status = sh(script: 'sudo -S systemctl is-active mysql', returnStatus: true)
                     if (status != 0) {
 
-                        sh 'sudo systemctl start mysql'
+                        sh 'sudo -S systemctl start mysql'
 
-                        status = sh(script: 'sudo systemctl is-active mysql', returnStatus: true)
+                        status = sh(script: 'sudo -S systemctl is-active mysql', returnStatus: true)
                         if (status != 0) {
                             error("Failed to start MySQL service.")
                         }
