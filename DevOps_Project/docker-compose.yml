@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  DevOps_Project:
+    container_name: devops
+    build: ../4TWIN1-G3-DevOps
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://dbmysql:3306/devops?createDatabaseIfNotExist=true&userSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    restart: unless-stopped
+
+    image: aminamami:9
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: "mysql:5.7"
+    container_name: dbmysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/mysql
+
+  angular-app:
+    image: aminamami/angular:latest
+    ports:
+      - "4200:80"
+    restart: always
+
+volumes:
+  db:
