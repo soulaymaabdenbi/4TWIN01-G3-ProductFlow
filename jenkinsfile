@@ -14,14 +14,6 @@ pipeline {
             }
         }
 
-      /*  stage('Status Mysql') {
-            steps {
-                script {
-                    sh 'sudo systemctl start mysql'
-                }
-            }
-        }*/
-
 
 
         stage('Check and Start MySQL') {
@@ -42,22 +34,26 @@ pipeline {
             }
         }
 
-      /*  stage('Maven Clean Compile') {
-            steps {
-                sh 'mvn -f /var/lib/jenkins/workspace/4TWIN1-G3-ProductFlow/DevOps_Project/pom.xml clean'
-                echo 'Running Maven Compile'
-                sh 'mvn -f /var/lib/jenkins/workspace/4TWIN1-G3-ProductFlow/DevOps_Project/pom.xml compile'
-            }
-        }*/
+       stage('Maven Clean Compile') {
+                   steps {
+                       dir('DevOps_Project') {
+                           echo 'Running Maven Clean and Compile'
+                           sh 'mvn clean compile'
+                       }
+                   }
+               }
 
-        stage('Maven Clean Compile') {
-            steps {
-                sh 'pwd'
-                sh 'mvn clean'
-                echo 'Running Maven Compile'
-                sh 'mvn compile'
-            }
-        }
+               stage('Maven Install') {
+                   steps {
+                       dir('DevOps_Project') {
+                           echo 'Running Maven Install'
+                           sh 'mvn install'
+                       }
+                   }
+               }
+           }
+
+       }
 
 
         stage('Testing JUnit/Mockito') {
@@ -70,11 +66,7 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage('Maven Install') {
-            steps {
-                sh 'mvn install'
-            }
-        }
+
         stage('Rapport JaCoCo') {
             steps {
                 sh 'mvn test'
