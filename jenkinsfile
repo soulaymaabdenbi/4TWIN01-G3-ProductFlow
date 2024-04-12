@@ -8,10 +8,9 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                echo 'Pulling ';
-              git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git';
-
-                 }
+                echo 'Pulling'
+                git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git'
+            }
         }
         stage('Status Mysql') {
             steps {
@@ -48,5 +47,6 @@ pipeline {
                 sh 'mvn jacoco:report'
             }
         }
-
+    }
+}
 
