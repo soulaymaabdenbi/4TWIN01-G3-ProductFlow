@@ -67,7 +67,7 @@ pipeline {
 
         stage('DOCKER IMAGE') {
             steps {
-                sh 'docker build -t DevOps_Project-1.0 .'
+                sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
             }
         }
 
