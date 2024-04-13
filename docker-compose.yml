@@ -1,8 +1,9 @@
 version: "3.8"
 services:
-  DevOps_Project:
+  backend:
     container_name: devops
-    build: .
+    build:
+      context: .
     ports:
       - "8085:8085"
     environment:
@@ -10,9 +11,16 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
     restart: unless-stopped
-    image: aminamami:9
     depends_on:
       - mysqldb
+
+  frontend:
+    container_name: angular-app
+    build:
+      context: .
+    ports:
+      - "4200:80"
+    restart: always
 
   mysqldb:
     image: "mysql:5.7"
@@ -24,12 +32,6 @@ services:
     restart: unless-stopped
     volumes:
       - db:/var/lib/mysql
-
-  angular-app:
-    image: aminamami/angular:latest
-    ports:
-      - "4200:80"
-    restart: always
 
 volumes:
   db:
