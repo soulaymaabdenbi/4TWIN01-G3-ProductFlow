@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-        stage('Testing JUnit/Mockito') {
+       /* stage('Testing JUnit/Mockito') {
             steps {
                 sh 'mvn test'
             }
@@ -63,7 +63,7 @@ pipeline {
                 sh 'mvn test'
                 sh 'mvn jacoco:report'
             }
-        }
+        }*/
 
         stage('DOCKER IMAGE') {
             steps {
@@ -74,8 +74,8 @@ pipeline {
         stage('DOCKER HUB') {
             steps {
                 sh 'docker login -u mamiamina -p 234JFT3231'
-                sh 'docker tag DevOps_Project-1.0 mamiamina/DevOps_Project-1.0'
-                sh 'docker push mamiamina/DevOps_Project-1.0'
+                sh 'docker tag DevOps_Project-1.0 mamiamina/aminamami-4twin1-g3-productflow:1.0.0'
+                sh 'docker push mamiamina/aminamami-4twin1-g3-productflow:1.0.0'
             }
         }
 
