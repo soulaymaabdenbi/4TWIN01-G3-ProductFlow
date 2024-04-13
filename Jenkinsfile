@@ -26,6 +26,27 @@ pipeline {
                 }
             }
         }
+        
+        stage('Build Docker Image') {
+            steps {
+                dir('DevOps_Project') {
+                // Build the Docker image using the tag you want
+                sh 'docker build -t soulaymaabdenbi-4twin1-g3-productflow .'
+            }}
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                dir('DevOps_Project') {
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                        // Tag and push the image to Docker Hub
+                        sh 'docker tag soulaymaabdenbi-4twin1-g3-productflow souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest'
+                        sh 'docker push souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest'
+                    }
+                }
+            }
+        }
     }
 
     post {
