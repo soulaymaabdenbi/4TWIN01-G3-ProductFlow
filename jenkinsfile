@@ -74,7 +74,7 @@ pipeline {
         stage('DOCKER HUB') {
             steps {
                 sh 'docker login -u mamiamina -p 234JFT3231'
-                sh 'docker tag DevOps_Project-1.0 mamiamina/aminamami-4twin1-g3-productflow:1.0.0'
+                sh 'docker tag aminamami-4twin1-g3-productflow:1.0.0 mamiamina/aminamami-4twin1-g3-productflow:1.0.0'
                 sh 'docker push mamiamina/aminamami-4twin1-g3-productflow:1.0.0'
             }
         }
