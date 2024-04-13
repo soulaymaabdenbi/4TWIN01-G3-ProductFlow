@@ -2,7 +2,7 @@ version: "3.8"
 services:
   DevOps_Project:
     container_name: devops
-    build: ../4TWIN1-G3-DevOps
+    build: .
     ports:
       - "8085:8085"
     environment:
@@ -10,7 +10,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
     restart: unless-stopped
-
     image: aminamami:9
     depends_on:
       - mysqldb
