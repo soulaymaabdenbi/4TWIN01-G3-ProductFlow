@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the Angular app for production
-RUN ng build --prod
+RUN ng build --prod --output-path=dist/DevOps_Project_Front
 
 # Use a smaller, production-ready image as the final image
 FROM nginx:alpine
