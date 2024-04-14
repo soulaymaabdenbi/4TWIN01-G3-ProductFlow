@@ -48,14 +48,18 @@ pipeline {
         }
 
 
-        stage('SonarQube Analysis') {
-                    steps {
-                        
-                        withSonarQubeEnv('SonarQube') {
-                            sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
-                        }
-                    }
-                }
+stage("SonarQube") {
+    steps {
+        dir('DevOps_Project') {
+            withSonarQubeEnv('SonarQube') {
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
+            }
+        }
+    }
+}
+
+
+
         stage('Deploy to Nexus') {
                     steps {
                         sh 'mvn deploy'
