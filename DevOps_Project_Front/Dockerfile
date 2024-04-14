@@ -16,7 +16,7 @@ COPY . .
 
 # Use the npm script to build the application for production
 # You might need to modify "build" if your npm script has a different name
- RUN npm run build --prod
+ RUN ng build
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
