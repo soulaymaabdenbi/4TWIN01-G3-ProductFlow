@@ -58,16 +58,17 @@ pipeline {
     }
 }*/
 
+stage('Deploy to Nexus') {
+            steps {
+                dir('DevOps_Project') {
+                    script {
+                         sh 'mvn deploy'
 
-stage("Deploy to Nexus") {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'admin', passwordVariable: 'nexus')]) {
-            dir('DevOps_Project') {
-                sh "mvn deploy -Dusername=$admin -Dpassword=$nexus"
+                    }
+                }
             }
         }
-    }
-}
+    } 
 
 
 
