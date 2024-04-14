@@ -36,7 +36,16 @@ pipeline {
                 }
             }
         }
-
+stage('Tests - JUnit/Mockito') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Build package') {
+                    steps {
+                        sh 'mvn package'
+                    }
+                }
         stage('Maven Install') {
             steps {
                 dir('DevOps_Project') {
@@ -56,6 +65,18 @@ pipeline {
             }
         }
 
+        stage('JaCoCo coverage report') {
+                    steps {
+                    dir('DevOps_Project'){
+                        step([$class: 'JacocoPublisher',
+                            execPattern: '**/target/jacoco.exec',
+                            classPattern: '**/classes',
+                            sourcePattern: '**/src',
+                            exclusionPattern: '*/target/**/,**/*Test*,**/*_javassist/**'
+                        ])
+                    }
+                }
+}
 
 /*
         stage("SonarQube") {
