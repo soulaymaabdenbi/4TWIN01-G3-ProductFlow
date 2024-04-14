@@ -1,36 +1,25 @@
-version: "3.8"
+version: '3.8'
+
 services:
-  spring-app:
-    container_name: spring-app
-    build:
-      context: .
-      dockerfile: DevOps_Project/Dockerfile
-    ports:
-      - "8085:8085"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://dbmysql:3306/devops?createDatabaseIfNotExist=true&userSSL=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=amina
-    restart: unless-stopped
-    depends_on:
-      - dbmysql
-
-  dbmysql:
-    image: "mysql:5.7"
-    container_name: dbmysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
-    volumes:
-      - db:/var/lib/mysql
-
-  angular-app:
-    image: aminamami/angular:latest
+  frontend:
+    image: mamiamina/angular:latest
     ports:
       - "4200:80"
-    restart: always
+    depends_on:
+      - backend
+
+  backend:
+    image: mamiamina/aminamami-4twin1-g3-productflow:1.0.0
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: amina
+      MYSQL_DATABASE: devops
+      MYSQL_USER: root
+      MYSQL_PASSWORD: amina
+    volumes:
+      - db-data:/var/lib/mysql
 
 volumes:
-  db:
+  db-data:

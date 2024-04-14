@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Git') {
+        stage('Git Checkout') {
             steps {
                 echo 'Pulling'
                 git branch: 'AminaMAMI-4TWIN1-G3', url: 'https://github.com/soulaymaabdenbi/4TWIN01-G3-ProductFlow.git'
@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-        stage('DOCKER COMPOSE') {
+        stage('DOCKER COMPOSE FrontEnd BackEnd MySql') {
             steps {
             sh 'sudo systemctl stop mysql'
             sh 'docker-compose up -d'
