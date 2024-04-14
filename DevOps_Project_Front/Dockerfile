@@ -1,29 +1,29 @@
-# Use the official Node.js 16 as a builder stage
-FROM node:16 as builder
+# Use the official Node.js image as the base image
+FROM node:19 as build
 
-# Set the working directory inside the builder stage
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
 # Install project dependencies
 RUN npm install
 
-# Copy the project files into the docker image
+# Copy the entire project to the container
 COPY . .
 
-# Build the project for production
-RUN npm run build
+# Build the Angular app for production
+RUN ng build --prod
 
-# Use nginx:alpine for the final image
+# Use a smaller, production-ready image as the final image
 FROM nginx:alpine
 
-# Copy the build output to replace the default nginx contents.
-COPY --from=builder /usr/src/app/dist/summer-workshop-angular /usr/share/nginx/html
+# Copy the production-ready Angular app to the Nginx webserver's root directory
+COPY --from=build /app/dist/your-angular-app /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
 
-# Start nginx
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
