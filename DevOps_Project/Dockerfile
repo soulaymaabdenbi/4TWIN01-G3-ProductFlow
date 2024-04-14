@@ -5,7 +5,7 @@ FROM openjdk:11
 EXPOSE 8085
 
 # Add the Spring Boot application JAR file into the container
-ADD DevOps_Project/target/DevOps_Project-1.0.jar /app/DevOps_Project-1.0.jar
+ADD target/DevOps_Project-1.0.jar /app/DevOps_Project-1.0.jar
 
 # Set the working directory in the container
 WORKDIR /app

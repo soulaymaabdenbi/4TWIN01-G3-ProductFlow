@@ -4,7 +4,7 @@ services:
     container_name: spring-app
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: DevOps_Project/Dockerfile
     ports:
       - "8085:8085"
     environment:
