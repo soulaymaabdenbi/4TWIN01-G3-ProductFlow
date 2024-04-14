@@ -45,22 +45,24 @@ pipeline {
                 }
             }
         }
+
         stage('Rapport JaCoCo') {
-                    steps {
-                        sh 'mvn test'
-                        sh 'mvn jacoco:report'
-                    }
-                }
-                stage('JaCoCo coverage report') {
-                            steps {
-                                step([$class: 'JacocoPublisher',
-                                      execPattern: '**/target/jacoco.exec',
-                                      classPattern: '**/classes',
-                                      sourcePattern: '**/src',
-                                      exclusionPattern: '*/target/**/,**/*Test*,**/*_javassist/**'
-                                ])
-                            }
-                        }
+            steps {
+                sh 'mvn test'
+                sh 'mvn jacoco:report'
+            }
+        }
+
+        stage('JaCoCo coverage report') {
+            steps {
+                step([$class: 'JacocoPublisher',
+                    execPattern: '**/target/jacoco.exec',
+                    classPattern: '**/classes',
+                    sourcePattern: '**/src',
+                    exclusionPattern: '*/target/**/,**/*Test*,**/*_javassist/**'
+                ])
+            }
+        }
 
         stage("SonarQube") {
             steps {
@@ -104,17 +106,33 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
+
+        stage('Email Notification') {
+            steps {
+                mail(
+                    to: 'amina.mami@esprit.tn', // Recipient email address
+                    subject: "Pipeline Status - ${currentBuild.currentResult}", // Subject of the email
+                    body: "The pipeline has ${currentBuild.currentResult}.\n\nBuild number: ${env.BUILD_NUMBER}\nBuild URL: ${env.BUILD_URL}" // Body of the email
+                )
+            }
+        }
     }
-stage('Email Notification') {
-    steps {
-        mail(
-            to: 'amina.mami@esprit.tn', // Recipient email address
-            subject: "Pipeline Status - ${currentBuild.currentResult}", // Subject of the email
-            body: "The pipeline has ${currentBuild.currentResult}.\n\nBuild number: ${env.BUILD_NUMBER}\nBuild URL: ${env.BUILD_URL}" // Body of the email
-        )
+
+    post {
+        success {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "SUCCESS: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The Pipeline has successfully completed. Build number: ${env.BUILD_NUMBER}"
+        }
+        failure {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "FAILED: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The Pipeline has failed. Build number: ${env.BUILD_NUMBER}. Check the console output at ${env.BUILD_URL} to see the error details."
+        }
+        unstable {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "UNSTABLE: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The build is unstable. Some tests might have failed. Build number: ${env.BUILD_NUMBER}."
+        }
     }
 }
-
-
-}
-
