@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+ environment {
+        DB_URL = 'jdbc:mysql://localhost:3306/devops?createDatabaseIfNotExist=true'
+        DB_USERNAME = 'root'
+        DB_PASSWORD = ''
+    }
     tools {
         maven 'M2_HOME'
     }
@@ -27,6 +31,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Debug Database Connection') {
+                    steps {
+                        echo 'Printing Database Connection Settings:'
+                        sh 'echo "DB URL: ${DB_URL}"'
+                        sh 'echo "DB Username: ${DB_USERNAME}"'
+                        sh 'echo "DB Password: ${DB_PASSWORD}"'
+
+                        echo 'Checking MySQL Service Status:'
+                        sh 'sudo systemctl status mysql'
+
+
+                    }
+                }
+
 
         stage('Maven Clean Compile') {
             steps {
