@@ -1,29 +1,31 @@
-# Use the official Node.js image as the base image
-FROM node:19 as build
+# Stage 1: Build the Angular application
+FROM node:19 AS build
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
+# Copy package.json and package-lock.json (if available) to the container
 COPY package*.json ./
 
-# Install project dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the entire project to the container
+# Copy the rest of the application code
 COPY . .
 
-# Build the Angular app for production
-RUN ng build --prod --output-path=dist/DevOps_Project_Front
+# Use the npm script to build the application for production
+# You might need to modify "build" if your npm script has a different name
+RUN ng build
 
-# Use a smaller, production-ready image as the final image
+# Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-# Copy the production-ready Angular app to the Nginx webserver's root directory
-COPY --from=build /app/dist/DevOps_Project_Front /usr/share/nginx/html
+# Copy the built application from the build stage to the Nginx web server's root directory
+# Modify the source path based on the outputPath defined in angular.json
+COPY --from=build /app/dist/summer-workshop-angular /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 8080
+EXPOSE 80
 
-# Start Nginx
+# Start Nginx when the container has provisioned.
 CMD ["nginx", "-g", "daemon off;"]
