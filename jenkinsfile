@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         maven 'M2_HOME'
-
     }
 
     stages {
@@ -47,42 +46,31 @@ pipeline {
             }
         }
 
-
-/*stage("SonarQube") {
-    steps {
-        dir('DevOps_Project') {
-            withSonarQubeEnv('SonarQube') {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
-            }
-        }
-    }
-}*/
-
-stage('Deploy to Nexus') {
+        stage("SonarQube") {
             steps {
                 dir('DevOps_Project') {
-                    script {
-                         sh 'mvn deploy -e -X'
-
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
                     }
                 }
             }
         }
 
-
-
-
-
-
-
+        stage('Deploy to Nexus') {
+            steps {
+                dir('DevOps_Project') {
+                    script {
+                        sh 'mvn deploy '
+                    }
+                }
+            }
+        }
 
         stage('DOCKER IMAGE') {
-
             steps {
-             dir('DevOps_Project') {
-             sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
-                        }
-
+                dir('DevOps_Project') {
+                    sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
+                }
             }
         }
 
@@ -96,11 +84,27 @@ stage('Deploy to Nexus') {
 
         stage('DOCKER COMPOSE FrontEnd BackEnd MySql') {
             steps {
-            sh 'sudo systemctl stop mysql'
-            sh 'docker-compose up -d'
-
-
+                sh 'sudo systemctl stop mysql'
+                sh 'docker-compose up -d'
             }
+        }
+    }
+
+    post {
+        success {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "SUCCESS: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The Pipeline has successfully completed. Build number: ${env.BUILD_NUMBER}"
+        }
+        failure {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "FAILED: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The Pipeline has failed. Build number: ${env.BUILD_NUMBER}. Check the console output at ${env.BUILD_URL} to see the error details."
+        }
+        unstable {
+            mail to: 'amina.mami@esprit.tn',
+                 subject: "UNSTABLE: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                 body: "The build is unstable. Some tests might have failed. Build number: ${env.BUILD_NUMBER}."
         }
     }
 }
