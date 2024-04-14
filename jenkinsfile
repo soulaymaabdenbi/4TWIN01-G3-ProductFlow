@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'M2_HOME'
-        sonarqube 'SonarQube'
+        sonarScanner '5.0.1.3006'
     }
 
     stages {
