@@ -58,7 +58,7 @@ pipeline {
     }
 }*/
 
-stages {
+
     stage("Deploy to Nexus") {
         steps {
             withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'admin', passwordVariable: 'nexus')]) {
@@ -68,7 +68,6 @@ stages {
             }
         }
     }
-}
 
 
 
