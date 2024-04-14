@@ -107,12 +107,12 @@ pipeline {
     }
 
     post {
-      success {
-              mail to: 'amina.mami@esprit.tn',
-                   subject: "SUCCESS: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
-                   body: "The Pipeline has successfully completed. Build number: ${env.BUILD_NUMBER}",
-                   env.CREDENTIALS_ID
-          }
+     success {
+             mail(to: 'amina.mami@esprit.tn',
+                  subject: "SUCCESS: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
+                  body: "The Pipeline has successfully completed. Build number: ${env.BUILD_NUMBER}",
+                  credentialsId: 'cef7bdce-45f5-4dbf-be7b-ee433ce9ee72')
+         }
         failure {
             mail to: 'amina.mami@esprit.tn',
                  subject: "FAILED: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
