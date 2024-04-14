@@ -56,8 +56,8 @@ pipeline {
             }
         }
 
-      
 
+/*
         stage("SonarQube") {
             steps {
                 dir('DevOps_Project') {
@@ -67,7 +67,7 @@ pipeline {
                 }
             }
         }
-
+*/
         stage('Deploy to Nexus') {
             steps {
                 dir('DevOps_Project') {
@@ -98,6 +98,15 @@ pipeline {
             steps {
                 sh 'sudo systemctl stop mysql'
                 sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Grafana/Prometheus') {
+            steps {
+                script {
+                    sh 'docker start 7532812ec873'
+                    sh 'docker start ca57c635e570'
+                }
             }
         }
 
