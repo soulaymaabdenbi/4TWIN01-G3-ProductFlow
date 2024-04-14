@@ -70,7 +70,7 @@ pipeline {
             steps {
              dir('DevOps_Project') {
              sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
-                        }}
+                        }
 
             }
         }
