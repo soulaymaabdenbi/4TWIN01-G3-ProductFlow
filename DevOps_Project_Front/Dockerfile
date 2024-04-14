@@ -1,5 +1,5 @@
 # Use the official Node.js image that is compatible with your Angular version
-FROM node:16.14.0 as build
+FROM node:19.2.0 as build
 
 # Set the working directory in the container
 WORKDIR /app
