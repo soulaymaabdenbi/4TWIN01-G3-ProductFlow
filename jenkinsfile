@@ -46,25 +46,7 @@ pipeline {
             }
         }
 
-       /* stage('Testing JUnit/Mockito') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('Build package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
-        stage('Rapport JaCoCo') {
-            steps {
-                sh 'mvn test'
-                sh 'mvn jacoco:report'
-            }
-        }*/
-
+      
         stage("SonarQube") {
                     steps {
                         withSonarQubeEnv('SonarQube') {
