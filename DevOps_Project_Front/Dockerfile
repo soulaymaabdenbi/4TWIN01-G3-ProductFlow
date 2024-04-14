@@ -4,29 +4,31 @@ FROM node:19 AS build
 
 # Set the working directory in the container
 WORKDIR /app
-
-# Copy package.json and package-lock.json (if available) to the container
+# Copier les fichiers package.json et package-lock.json dans le répertoire de travail
 COPY package*.json ./
 
-# Install dependencies
+# Installer les dépendances
 RUN npm install
 
-# Copy the rest of the application code
+# Installer Angular CLI globalement dans l'image
+RUN npm install -g @angular/cli
+
+# Copier les fichiers du projet Angular dans le répertoire de travail
 COPY . .
 
-# Use the npm script to build the application for production
-# You might need to modify "build" if your npm script has a different name
- RUN ng build
-# Stage 2: Serve the application with Nginx
+# Utiliser le CLI Angular pour construire l'application Angular
+RUN ng build --prod
+
+# Utiliser une image légère contenant Nginx pour servir l'application construite
 FROM nginx:alpine
 
-# Copy the built application from the build stage to the Nginx web server's root directory
-# Modify the source path based on the outputPath defined in angular.json
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copier les fichiers de l'application construite depuis le conteneur de construction vers le conteneur Nginx
+# Assurez-vous que le chemin d'accès au répertoire de distribution est correct
+COPY --from=build /app/dist/summer-workshop-angular /usr/share/nginx/html
 
-# Expose port 80
+# Exposer le port 80 pour que l'application puisse être accessible
 EXPOSE 80
 
-# Start Nginx when the container has provisioned.
+# Commande pour démarrer Nginx lors de l'exécution du conteneur
 CMD ["nginx", "-g", "daemon off;"]
 
