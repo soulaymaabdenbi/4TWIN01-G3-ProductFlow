@@ -48,8 +48,11 @@ pipeline {
 
         stage('Rapport JaCoCo') {
             steps {
-                sh 'mvn test'
-                sh 'mvn jacoco:report'
+             dir('DevOps_Project'){
+                   sh 'mvn test'
+                   sh 'mvn jacoco:report'
+             }
+
             }
         }
 
