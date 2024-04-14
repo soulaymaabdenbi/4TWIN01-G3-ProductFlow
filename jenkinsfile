@@ -58,15 +58,16 @@ pipeline {
     }
 }*/
 
-
-
-        stage('Deploy to Nexus') {
+stage("Deploy to Nexus") {
+    steps {
         dir('DevOps_Project') {
-                    steps {
-                        sh 'mvn deploy'
-                    }
-                }
-                }
+
+                sh 'mvn deploy'
+
+        }
+    }
+}
+
 
         stage('DOCKER IMAGE') {
 
