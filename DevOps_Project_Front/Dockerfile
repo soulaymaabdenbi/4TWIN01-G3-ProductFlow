@@ -17,7 +17,7 @@ COPY . .
 RUN ng build --prod --output-path=dist/DevOps_Project_Front
 
 # Use a smaller, production-ready image as the final image
-FROM nginx:soulaymaabdenbi-4twin1-g3-frontend
+FROM nginx:alpine
 
 # Copy the production-ready Angular app to the Nginx webserver's root directory
 COPY --from=build /app/dist/DevOps_Project_Front /usr/share/nginx/html
