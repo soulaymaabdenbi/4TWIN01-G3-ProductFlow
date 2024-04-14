@@ -1,6 +1,7 @@
 pipeline {
     agent any
-
+    
+   
     stages {
         stage('Git') {
             steps {
@@ -47,7 +48,43 @@ pipeline {
                 }
             }
         }
-    }
+        stage('MVN SONARQUBE') {
+            steps {
+                dir('DevOps_Project') {
+                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar -Dmaven.test.skip=true';
+                }
+            }
+        }
+        stage('Testing JUnit/Mockito') {
+            steps {
+         dir('DevOps_Project') {
+        script {
+           
+            try {
+                sh 'mvn test'
+            } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+                throw e 
+        
+            }
+                    }
+                }
+            }
+        }
+   
+      stage('Deploy to Nexus') {
+            steps {
+                dir('DevOps_Project') {
+                    script {
+                         sh 'mvn deploy'
+
+                    }
+                }
+            }
+        }
+    }   
+    
+    
 
     post {
         success {
