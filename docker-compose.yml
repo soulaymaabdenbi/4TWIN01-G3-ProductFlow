@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0.31 # or use mysql:8.0 or whichever version you prefer
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: ' devops '  # Replace with your database name
+      MYSQL_USER: 'root'  # Replace with your database user
+      MYSQL_PASSWORD: ''  # Replace with your database password
+      MYSQL_ROOT_PASSWORD: 'Souzem104*'  # Replace with your desired root password
+    ports:
+      - '3306:3306'  # Optional: Expose port 3306 on the host machine
+    volumes:
+      - db_data:/var/lib/mysql  # Persists data between container restarts
+
+volumes:
+  db_data:  # Named volume for storing database data
