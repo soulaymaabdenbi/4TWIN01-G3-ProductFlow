@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'M2_HOME'
-        
+
     }
 
     stages {
@@ -48,10 +48,10 @@ pipeline {
         }
 
 
-        stage("SonarQube") {
+        stage("SonarQube Analysis") {
                     steps {
                         withSonarQubeEnv('SonarQube') {
-                            sh 'mvn sonar:sonar'
+                            sh 'mvn admin:sonar'
                         }
                     }
                 }
