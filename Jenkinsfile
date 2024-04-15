@@ -50,7 +50,7 @@ pipeline {
         stage('MVN SONARQUBE ') {
             steps {
                 dir('DevOps_Project') {
-                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=nexus -Dmaven.test.skip=true'
+                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar -Dmaven.test.skip=true'
                 }
             }
         }
