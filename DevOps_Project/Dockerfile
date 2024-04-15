@@ -5,7 +5,7 @@ FROM openjdk:11
 EXPOSE 8080
 
 # Copy the jar file from your target folder to the image
-COPY target/app.jar /app/app.jar
+COPY target/DevOps_Project-1.0.jar /app/app.jar
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
