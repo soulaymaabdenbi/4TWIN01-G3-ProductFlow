@@ -1,6 +1,5 @@
 package tn.esprit.devops_project;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,13 +9,14 @@ import tn.esprit.devops_project.entities.Supplier;
 import tn.esprit.devops_project.repositories.SupplierRepository;
 import tn.esprit.devops_project.services.SupplierServiceImpl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class SupplierServiceUnitTest {
+public class SupplierServiceUnitTest {
 
     @Mock
     SupplierRepository supplierRepository;
@@ -30,19 +30,25 @@ class SupplierServiceUnitTest {
     }
 
     @Test
-    void retrieveSupplier() {
-        // Given
-        Long supplierId = 1L;
-        Supplier supplier = new Supplier();
-        supplier.setIdSupplier(supplierId);
-        when(supplierRepository.findById(supplierId)).thenReturn(Optional.of(supplier));
+    void retrieveAllSuppliers() {
+        // Mock data
+        Supplier supplier1 = new Supplier(1L, "code1", "label1");
+        Supplier supplier2 = new Supplier(2L, "code2", "label2");
 
-        // When
-        Supplier result = supplierService.retrieveSupplier(supplierId);
+        List<Supplier> suppliers = Arrays.asList(supplier1, supplier2);
 
-        // Then
-        assertEquals(supplierId, result.getIdSupplier());
+        // Mocking behavior
+        when(supplierRepository.findAll()).thenReturn(suppliers);
+
+        // Perform the test
+        List<Supplier> result = supplierService.retrieveAllSuppliers();
+
+        // Verify the interactions
+        verify(supplierRepository, times(1)).findAll();
+
+        // Assertions
+        assertEquals(2, result.size());
     }
 
-    // Add more test methods for other service methods...
+
 }
