@@ -144,7 +144,7 @@ stage('Tests JUnit/Mockito') {
 
 
 
-
+/*
      stage('Email Notification') {
                 steps {
 
@@ -152,7 +152,7 @@ stage('Tests JUnit/Mockito') {
      ''', cc: '', from: '', replyTo: '', subject: 'Jenkins job', to: 'amina.mami@isaas.u-sfax.tn'
 
                 }
-            }
+            }*/
         }
 
 }
