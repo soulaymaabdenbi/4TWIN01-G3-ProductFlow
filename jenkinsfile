@@ -93,7 +93,8 @@ stage('Tests - JUnit/Mockito') {
                 }
             }
         }
-*/
+
+
         stage('Deploy to Nexus') {
             steps {
                 dir('DevOps_Project') {
@@ -103,7 +104,7 @@ stage('Tests - JUnit/Mockito') {
                 }
             }
         }
-
+*/
         stage('DOCKER IMAGE') {
             steps {
                 dir('DevOps_Project') {
