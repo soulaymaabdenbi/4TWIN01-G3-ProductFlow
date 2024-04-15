@@ -24,8 +24,6 @@ services:
       - app-network
   frontend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
-    ports:
-      - "80:80"
     depends_on:
       - backend
     networks:
