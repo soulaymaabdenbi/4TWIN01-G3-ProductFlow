@@ -11,7 +11,7 @@ services:
   backend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
     ports:
-      - "8080:8080" # Expose port 8080 on the host to port 8080 in the container
+      - "8082:8080" # Expose port 8080 on the host to port 8080 in the container
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ devops 
       SPRING_DATASOURCE_USERNAME: root
