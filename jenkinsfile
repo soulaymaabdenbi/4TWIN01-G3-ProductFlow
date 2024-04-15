@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-stage('Tests - JUnit/Mockito') {
+stage('Tests JUnit/Mockito') {
             steps {
             dir('DevOps_Project') {
                 sh 'mvn test'
@@ -61,7 +61,7 @@ stage('Tests - JUnit/Mockito') {
             }
         }
 
-        stage('Rapport JaCoCo') {
+        stage('JaCoCo Report') {
             steps {
              dir('DevOps_Project'){
                    sh 'mvn test'
@@ -71,7 +71,7 @@ stage('Tests - JUnit/Mockito') {
             }
         }
 
-        stage('JaCoCo coverage report') {
+        stage('JaCoCo Publisher ') {
                     steps {
                     dir('DevOps_Project'){
                         step([$class: 'JacocoPublisher',
@@ -105,7 +105,7 @@ stage('Tests - JUnit/Mockito') {
                 }
             }
         }
-
+*/
        stage('DOCKER IMAGE') {
            steps {
                dir('DevOps_Project') {
@@ -142,23 +142,14 @@ stage('Tests - JUnit/Mockito') {
             }
         }
 
-        stage('Email Notification') {
-            steps {
-                mail(
-                    to: 'amina.mami@esprit.tn', // Recipient email address
-                    subject: "Pipeline Status - ${currentBuild.currentResult}", // Subject of the email
-                    body: "The pipeline has ${currentBuild.currentResult}.\n\nBuild number: ${env.BUILD_NUMBER}\nBuild URL: ${env.BUILD_URL}" // Body of the email
-                )
-            }
-        }
-    }
-    */
+
+
 
      stage('Email Notification') {
                 steps {
 
                  mail bcc: '', body: '''Welcome Amina to Jenkins email alerts.
-     ''', cc: '', from: '', replyTo: '', subject: 'Jenkins job', to: 'amina.mami@esprit.tn'
+     ''', cc: '', from: '', replyTo: '', subject: 'Jenkins job', to: 'amina.mami@isaas.u-sfax.tn'
 
                 }
             }
