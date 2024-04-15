@@ -1,7 +1,5 @@
 version: '3.8'
-
 services:
-  # Frontend service
   frontend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
     ports:
@@ -10,14 +8,13 @@ services:
       - backend
     networks:
       - app-network
-
-  # Backend service
+  
   backend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/devops
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
     ports:
       - "8082:8080"
     depends_on:
@@ -25,12 +22,11 @@ services:
     networks:
       - app-network
 
-  # MySQL service
   db:
-    image: mysql:latest
+    image: mysql:8.0.31
     environment:
-      - MYSQL_DATABASE=devops
-      - MYSQL_ROOT_PASSWORD=Souzem104*
+      MYSQL_DATABASE: devops
+      MYSQL_ROOT_PASSWORD: Souzem104*
     volumes:
       - db-data:/var/lib/mysql
     networks:
