@@ -172,13 +172,12 @@ stage('Email Notification') {
             bcc: '',
             body: '''Welcome Amina to Jenkins email alerts.''',
             cc: '',
-            from: 'amina.mami@esprit.tn', // Specify the sender's email address
-            replyTo: 'amina.mami@esprit.tn', // Specify the reply-to email address
+            from: 'amina.mami@esprit.tn',
+            replyTo: 'amina.mami@esprit.tn', 
             subject: 'Jenkins job',
             to: 'amina.mami@esprit.tn',
             mimeType: 'text/plain',
-            // Enable STARTTLS encryption
-            properties: [ 'mail.smtp.starttls.enable': 'true' ]
+
         )
         }
 }
