@@ -13,11 +13,11 @@ services:
   backend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/devops
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""
     ports:
-      - "8083:8080"
+      - "8082:8080"
     depends_on:
       - db
     networks:
