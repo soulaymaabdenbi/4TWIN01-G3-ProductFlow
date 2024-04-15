@@ -109,8 +109,6 @@ stage('Tests - JUnit/Mockito') {
            steps {
                dir('DevOps_Project') {
 
-                   sh 'sudo chmod 666 /var/run/docker.sock'
-
                    
                    sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
                }
