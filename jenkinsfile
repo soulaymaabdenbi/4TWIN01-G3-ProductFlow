@@ -108,8 +108,8 @@ stage('Tests - JUnit/Mockito') {
         stage('DOCKER IMAGE') {
             steps {
                 dir('DevOps_Project') {
-                    sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
-                }
+                    sh '/usr/bin/docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
+                            }
             }
         }
 
