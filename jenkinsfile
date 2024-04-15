@@ -105,13 +105,19 @@ stage('Tests - JUnit/Mockito') {
             }
         }
 */
-        stage('DOCKER IMAGE') {
-            steps {
-                dir('DevOps_Project') {
-                    sh '/usr/bin/docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
-                            }
-            }
-        }
+       stage('DOCKER IMAGE') {
+           steps {
+               dir('DevOps_Project') {
+
+                   sh 'sudo chmod 666 /var/run/docker.sock'
+
+                   
+                   sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
+               }
+           }
+       }
+
+
 
         stage('DOCKER HUB') {
             steps {
