@@ -1,33 +1,44 @@
 version: '3.8'
 
 services:
+  # Frontend service
   frontend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
     ports:
-      - "80:80" # Expose port 80 on the host to port 80 in the container
+      - "80:80"
     depends_on:
       - backend
+    networks:
+      - app-network
 
+  # Backend service
   backend:
     image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
-    ports:
-      - "8082:8080" # Expose port 8080 on the host to port 8080 in the container
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ devops 
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/devops
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+    ports:
+      - "8082:8080"
     depends_on:
       - db
+    networks:
+      - app-network
 
-  db:
-    image: mysql:5.7
+  # MySQL service
+ db:
+    image: mysql:latest
     environment:
-      MYSQL_DATABASE: yourdatabase
-      MYSQL_ROOT_PASSWORD: Souzem104*
-    ports:
-      - "3306:3306"
+      - MYSQL_DATABASE=devops
+      - MYSQL_ROOT_PASSWORD=Souzem104*
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
-  db_data:
+  db-data:
