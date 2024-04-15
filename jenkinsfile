@@ -180,6 +180,7 @@ stage('Email Notification') {
             // Enable STARTTLS encryption
             properties: [ 'mail.smtp.starttls.enable': 'true' ]
         )
-    }
+        }
+}
 }
 }
