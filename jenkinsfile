@@ -44,6 +44,7 @@ stage('Tests - JUnit/Mockito') {
             }
             }
         }
+
         stage('Build package') {
                     steps {
                     dir('DevOps_Project') {
@@ -104,12 +105,12 @@ stage('Tests - JUnit/Mockito') {
                 }
             }
         }
-*/
+
        stage('DOCKER IMAGE') {
            steps {
                dir('DevOps_Project') {
 
-                   
+
                    sh 'docker build -t aminamami-4twin1-g3-productflow:1.0.0 .'
                }
            }
@@ -151,22 +152,16 @@ stage('Tests - JUnit/Mockito') {
             }
         }
     }
+    */
 
-    post {
-        success {
-            mail to: 'amina.mami@esprit.tn',
-                 subject: "SUCCESS: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
-                 body: "The Pipeline has successfully completed. Build number: ${env.BUILD_NUMBER}"
+     stage('Email Notification') {
+                steps {
+
+                 mail bcc: '', body: '''Welcome Amina to Jenkins email alerts.
+     ''', cc: '', from: '', replyTo: '', subject: 'Jenkins job', to: 'amina.mami@esprit.tn'
+
+                }
+            }
         }
-        failure {
-            mail to: 'amina.mami@esprit.tn',
-                 subject: "FAILED: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
-                 body: "The Pipeline has failed. Build number: ${env.BUILD_NUMBER}. Check the console output at ${env.BUILD_URL} to see the error details."
-        }
-        unstable {
-            mail to: 'amina.mami@esprit.tn',
-                 subject: "UNSTABLE: Jenkins Pipeline Build - ${env.BUILD_NUMBER}",
-                 body: "The build is unstable. Some tests might have failed. Build number: ${env.BUILD_NUMBER}."
-        }
-    }
+
 }
