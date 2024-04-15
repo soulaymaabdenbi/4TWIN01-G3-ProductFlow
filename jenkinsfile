@@ -28,7 +28,7 @@ pipeline {
             }
         }
 
-      
+
         stage('Maven Clean Compile') {
             steps {
                 dir('DevOps_Project') {
