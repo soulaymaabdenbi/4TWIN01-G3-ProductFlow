@@ -153,7 +153,7 @@ stage('Tests - JUnit/Mockito') {
         }
     }
     */
-/*
+
      stage('Email Notification') {
                 steps {
 
@@ -165,24 +165,4 @@ stage('Tests - JUnit/Mockito') {
         }
 
 }
-*/
-stage('Email Notification') {
-    steps {
-        script {
-            env.MAIL_SMTP_STARTTLS_ENABLE = 'true' 
-            mail(
-                bcc: '',
-                body: '''Welcome Amina to Jenkins email alerts.''',
-                cc: '',
-                from: 'amina.mami@esprit.tn',
-                replyTo: 'amina.mami@esprit.tn',
-                subject: 'Jenkins job',
-                to: 'amina.mami@esprit.tn',
-                mimeType: 'text/plain'
-            )
-        }
-    }
-}
 
-}
-}
