@@ -68,7 +68,11 @@
             <version>3.6.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.11.0.3922</version>
+        </dependency>
         <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -92,10 +96,7 @@
                     <target>11</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -109,6 +110,10 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+
+
+
         </plugins>
     </build>
    <distributionManagement>
