@@ -1,37 +1,25 @@
 version: '3.8'
+
 services:
- db:
-    image: mysql:8.0.31
-    environment:
-      MYSQL_DATABASE: devops
-      MYSQL_ROOT_PASSWORD: Souzem104*
-    volumes:
-      - db-data:/var/lib/mysql
-    networks:
-      - app-network
-  
-  backend:
-    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/devops
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ""
-    ports:
-      - "8082:8080"
-    depends_on:
-      - db
-    networks:
-      - app-network
   frontend:
-    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
+    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
+    ports:
+      - "4200:80"
     depends_on:
       - backend
-    networks:
-      - app-network
- 
-networks:
-  app-network:
-    driver: bridge
+
+  backend:
+    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: devops
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+    volumes:
+      - db-data:/var/lib/mysql
 
 volumes:
   db-data:
