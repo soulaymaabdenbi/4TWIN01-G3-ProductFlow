@@ -1,24 +1,26 @@
 version: '3.8'
+
 services:
-  frontend:
-    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
-    ports:
-      - "4200:80"
-    depends_on:
-      - backend
-
-  backend:
-    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
-
-  db:
+ db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: devops
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 
     volumes:
       - db-data:/var/lib/mysql
-
+  
+  backend:
+    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-productflow:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/devops
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 
+    depends_on:
+      - db
+  frontend:
+    image: souleymaabdenbi/soulaymaabdenbi-4twin1-g3-frontend:latest
+     ports: - "4200:80"
+    depends_on:
+      - backend
 volumes:
   db-data:
