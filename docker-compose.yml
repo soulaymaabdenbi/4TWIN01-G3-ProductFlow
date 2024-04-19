@@ -14,10 +14,10 @@ services:
   db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_ROOT_PASSWORD: 
       MYSQL_DATABASE: devops
       MYSQL_USER: root
-      MYSQL_PASSWORD: yourpassword
+      MYSQL_PASSWORD: 
     volumes:
       - db-data:/var/lib/mysql
 
