@@ -1,6 +1,9 @@
 pipeline {
     agent any
-    
+    tools {
+        maven 'M2_HOME'
+    }
+
     stages {
         stage('Git') {
             steps {
@@ -27,7 +30,39 @@ pipeline {
             }
         }
         
-        stage('Build Docker Image Backend') {
+        stage('Testing JUnit/Mockito') {
+            steps {
+                dir('DevOps_Project') {
+                    script {
+                        try {
+                            sh 'mvn test'
+                        } catch (Exception e) {
+                            currentBuild.result = 'UNSTABLE'
+                            throw e // Re-throw the exception to mark the build failed
+                        }
+                    }
+                }
+            }
+        }
+        stage('MVN SONARQUBE ') {
+            steps {
+                dir('DevOps_Project') {
+                    
+                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar '
+                     
+                }
+            }
+        }
+        stage('Deploy to Nexus') {
+            steps {
+                 dir('DevOps_Project') {
+                script {
+                    sh 'mvn deploy'
+                }
+                 }
+            }
+        }
+         stage('Build Docker Image Backend') {
             steps {
                 dir('DevOps_Project') {
                     sh 'docker build -t soulaymaabdenbi-4twin1-g3-productflow .'
@@ -46,38 +81,9 @@ pipeline {
                 }
             }
         }
+         
+         
         
-        stage('MVN SONARQUBE ') {
-            steps {
-                dir('DevOps_Project') {
-                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar -Dmaven.test.skip=true'
-                }
-            }
-        }
-        
-        stage('Testing JUnit/Mockito') {
-            steps {
-                dir('DevOps_Project') {
-                    script {
-                        try {
-                            sh 'mvn test'
-                        } catch (Exception e) {
-                            currentBuild.result = 'UNSTABLE'
-                            throw e // Re-throw the exception to mark the build failed
-                        }
-                    }
-                }
-            }
-        }
-         stage('Deploy to Nexus') {
-            steps {
-                 dir('DevOps_Project') {
-                script {
-                    sh 'mvn deploy'
-                }
-                 }
-            }
-        }
         
          stage('Build Docker Image Frontend') {
             steps {
@@ -101,17 +107,30 @@ pipeline {
             }
         }
 
-                    
-        
+        stage('Docker Compose') {
+            steps {
+             script {
+            sh'docker-compose pull'
+            sh 'docker-compose down'
+            sh 'docker-compose up -d'
+            }
+         }
+        }
+
        
-    }
+    }   
     
-    post {
+    
+   post {
         success {
-            echo 'Build succeeded!'
+            mail to: 'cmptest66@gmail.com',
+                 subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Good news, ${env.JOB_NAME} build ${env.BUILD_NUMBER} succeeded. Check it out!"
         }
         failure {
-            echo 'Build failed!'
+            mail to: 'cmptest66@gmail.com',
+                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Something is broken with ${env.JOB_NAME} build ${env.BUILD_NUMBER}. Please check it!"
         }
     }
 }
